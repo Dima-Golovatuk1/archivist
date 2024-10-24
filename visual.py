@@ -6,7 +6,7 @@ from app import coder, decode
 
 def create_archiver_app(root):
     """
-    Основна функція, яка створює архіватор без використання глобальних змінних.
+    Основна функція, яка створює архіватор.
     """
     current_file_path = None
 
