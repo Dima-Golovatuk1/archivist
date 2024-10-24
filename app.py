@@ -44,9 +44,9 @@ def coder(content):
             letter = Letter(k, i)  # Створюємо новий об'єкт Letter
             letter.add_list(lis)  # Додаємо до списку закодованих значень
             num += 1
-            current_sequence = ''  # Очищаємо поточну послідовність
+            current_sequence = ''
             k = 0
-    if current_sequence:  # Якщо залишились непроцесовані символи
+    if current_sequence:
         letter = Letter(k, ' ')
         letter.add_list(lis)
     result_string = "'".join(lis)
@@ -64,7 +64,7 @@ def decode(encoded_list):
     decode_list = []
 
     for item in encoded_list:
-        mark = item[:-1]  # Витягуємо мітку
+        mark = item[:-1]  # Витягуємо мітку(число що є ключом)
         symbol = item[-1]  # Витягуємо символ
 
         if mark == '0':  # Якщо мітка '0', це новий символ
