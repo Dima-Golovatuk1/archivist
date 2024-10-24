@@ -23,36 +23,35 @@ class Letter:
         lis.append(str(self.mark) + self.symbol)  # Додаємо в список lis
 
 
+
 def coder(content):
     """
     Кодує вміст файлу.
     content: вміст файлу для кодування
     """
     num = 1
-    repetition = {}
+    repetition = {}  # Для збереження унікальних послідовностей
     current_sequence = ''
     k = 0
     lis = []
 
     for i in content:
-        if current_sequence + i in repetition:
+        if current_sequence + i in repetition:  # Якщо поточна послідовність вже зустрічалась
             current_sequence += i
-            k = repetition[current_sequence]
+            k = repetition[current_sequence]  # Отримуємо мітку
         else:
-            repetition[current_sequence + i] = num
-            letter = Letter(k, i)
-            letter.add_list(lis)
+            repetition[current_sequence + i] = num  # Додаємо нову послідовність
+            letter = Letter(k, i)  # Створюємо новий об'єкт Letter
+            letter.add_list(lis)  # Додаємо до списку закодованих значень
             num += 1
-            current_sequence = ''
+            current_sequence = ''  # Очищаємо поточну послідовність
             k = 0
-    if current_sequence:
+    if current_sequence:  # Якщо залишились непроцесовані символи
         letter = Letter(k, ' ')
         letter.add_list(lis)
     result_string = "'".join(lis)
-    with open('coder_file.txt', 'w', encoding='utf-8') as new_file:
-        new_file.write(result_string)
 
-    return lis
+    return lis  # Повертаємо закодований список
 
 
 def decode(encoded_list):
@@ -64,19 +63,21 @@ def decode(encoded_list):
     num = 1
     decode_list = []
 
-    for i in encoded_list:
-        if i == "0":
-            i = "0'"
-        mark = i[:-1]
-        symbol = i[-1]
-        if mark == '0':
-            repetition[num] = symbol
-            decode_list.append(symbol)
+    for item in encoded_list:
+        mark = item[:-1]  # Витягуємо мітку
+        symbol = item[-1]  # Витягуємо символ
+
+        if mark == '0':  # Якщо мітка '0', це новий символ
+            repetition[num] = symbol  # Зберігаємо символ
+            decode_list.append(symbol)  # Додаємо до декодованого списку
         else:
-            symboll = repetition[int(mark)]
-            h = symboll + symbol
-            repetition[num] = h
-            decode_list.append(h)
+            prev_sequence = repetition[int(mark)]  # Отримуємо послідовність за міткою
+            new_sequence = prev_sequence + symbol  # Додаємо новий символ до попередньої послідовності
+            repetition[num] = new_sequence  # Зберігаємо оновлену послідовність
+            decode_list.append(new_sequence)  # Додаємо до результату
+
         num += 1
-    text = ''.join(decode_list)
-    return text
+
+    return ''.join(decode_list)  # Повертаємо декодований текст
+
+
